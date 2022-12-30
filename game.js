@@ -1,3 +1,34 @@
+let playerChoice;
+
+let playerScore = 0;
+let compScore = 0;
+
+const buttons = document.querySelectorAll('button');
+
+const player = document.querySelector('#winCount');
+player.textContent = `Player Score: ${playerScore}`;
+
+const comp = document.querySelector('#lossCount');
+comp.textContent = `Computer Score: ${compScore}`;
+
+const output = document.querySelector('#output');
+output.textContent = 'Good luck!';
+
+buttons.forEach((button)=>{
+    button.addEventListener('click',()=>{
+        playerChoice = button.id;
+        output.textContent = playRound(playerChoice, getComputerChoice());
+        player.textContent = `Player Score: ${playerScore}`;
+        comp.textContent = `Computer Score: ${compScore}`;
+        if (playerScore === 5) {
+            output.textContent = 'You win!!!';
+        } else if (compScore === 5) {
+            output.textContent = 'You lose...';
+        }
+    })
+})
+
+
 function getComputerChoice(){
     let a = Math.random();
     let b = Math.random();
@@ -16,49 +47,31 @@ function playRound(playerSelection, computerSelection) {
         if (computerSelection === 'rock') {
             return 'tie';
         } else if (computerSelection === 'paper') {
+            compScore++;
             return 'lose';
         } else {
+            playerScore++;
             return 'win';
         }
     } else if (playerSelection.toLowerCase() === 'paper') {
         if (computerSelection === 'rock') {
+            playerScore++;
             return 'win';
         } else if (computerSelection === 'paper') {
             return 'tie';
         } else {
+            compScore++;
             return 'lose';
         }
     } else {
         if (computerSelection === 'rock') {
+            compScore++;
             return 'lose';
         } else if (computerSelection === 'paper') {
+            playerScore++;
             return 'win';
         } else {
             return 'tie';
         }
-    }
-}
-
-function game() {
-    let w = 0;
-    let l = 0;
-    for (let i = 0; i < 5; i++) {
-        const player = prompt("Choose your move");
-        const computer = getComputerChoice();
-        const result = playRound(player, computer);
-        console.log('Computer chose ' + computer + ', ' + result);
-        if (result === 'win') {
-            w += 1;
-        } else if (result === 'lose') {
-            l += 1;
-        } else {
-        }
-    }
-    if (w > l) {
-        console.log('You won!');
-    } else if (w > l) {
-        console.log('You lost...');
-    } else {
-        console.log('Tie!');
     }
 }
